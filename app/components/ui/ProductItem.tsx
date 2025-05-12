@@ -2,7 +2,16 @@ import Link from "next/link";
 import { IProduct } from "../products/ProductGridHome";
 
 
-const ProductItem = ({ product, classSpec } : { product: IProduct, classSpec?: string }) => {
+const ProductItem = (
+    { 
+        product, 
+        classSpec, 
+        setIsOpenModal 
+    } : { 
+        product: IProduct, 
+        classSpec?: string,
+        setIsOpenModal: (a: boolean) => void
+    }) => {
     return (
         <div className={`product ${classSpec || ""}`}>
             <div className="thumb">
@@ -21,7 +30,7 @@ const ProductItem = ({ product, classSpec } : { product: IProduct, classSpec?: s
                 <div className="actions">
                     <a href="wishlist.html" className="action wishlist" title="Wishlist"><i
                             className="icon-heart"></i></a>
-                    <a href="#" className="action quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                    <a className="action quickview" title="Quick view" onClick={() => setIsOpenModal(true)}><i
                             className="icon-size-fullscreen"></i></a>
                     <a href="compare.html" className="action compare" title="Compare"><i
                             className="icon-refresh"></i></a>

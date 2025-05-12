@@ -840,6 +840,11 @@ input {
     -webkit-transition: -webkit-transform .3s,opacity .3s
 }
 
+.dropdown--closed .mega-menu {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
 .main-menu ul li.dropdown li.position-static {
     position: relative!important
 }

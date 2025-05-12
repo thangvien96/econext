@@ -10,7 +10,10 @@ export const getProductsNew = async () => {
   return res.data; 
 };
 
-export const getProducts = async () => {
-  const res = await api.get('/getProducts');
+export const getProducts = async (current_page: number, page_size: number) => {
+  const res = await api.post('/getProducts', {
+    current_page,
+    page_size
+  });
   return res.data; 
 };
