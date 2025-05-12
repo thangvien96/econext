@@ -2,18 +2,22 @@ import Link from "next/link";
 import { IProduct } from "../products/ProductGridHome";
 
 
-const ProductItem = ({ product } : { product: IProduct }) => {
+const ProductItem = ({ product, classSpec } : { product: IProduct, classSpec?: string }) => {
     return (
-        <div className="product">
+        <div className={`product ${classSpec || ""}`}>
             <div className="thumb">
                 <Link href={`/product/${product.slug}`} className="image">
                     <img src={product.images[0]} alt="Product" />
                     <img className="hover-image" src={product.images[1]} alt="Product" />
                 </Link>
                 
-                {product.tag && <span className="badges">
-                    <span className="new">{product.tag}</span>
-                </span>}
+                {
+                    product.tag && 
+                    <span className="badges">
+                        <span className="new">{product.tag}</span>
+                    </span>
+                }
+
                 <div className="actions">
                     <a href="wishlist.html" className="action wishlist" title="Wishlist"><i
                             className="icon-heart"></i></a>
