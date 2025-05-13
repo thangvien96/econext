@@ -6,7 +6,7 @@ const AddToCartButton = ({ product } : {product : IProduct}) => {
     const dispatch = useDispatch();
 
     return (
-        <button title="Add To Cart" className="add-to-cart" onClick={() => dispatch(addProduct(product))}>
+        <button title="Add To Cart" className="add-to-cart" onClick={() => dispatch(addProduct({...product, quantity: 1}))}>
             Add To Cart
         </button>
     )
