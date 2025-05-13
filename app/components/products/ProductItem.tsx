@@ -1,17 +1,31 @@
 import Link from "next/link";
-import { IProduct } from "../products/ProductGridHome";
+import { IProduct } from "./ProductGridHome";
+import AddToCartButton from "./AddToCartButton";
 
 
 const ProductItem = (
     { 
         product, 
         classSpec, 
-        setIsOpenModal 
+        setIsOpenModal,
+        setSelectedProduct
     } : { 
         product: IProduct, 
         classSpec?: string,
-        setIsOpenModal: (a: boolean) => void
+        setIsOpenModal?: (a: boolean) => void
+        setSelectedProduct?: (a: string|null) => void
     }) => {
+
+
+    const handleViewDetailProduct = (productId: string) => {
+        if(setIsOpenModal){
+            setIsOpenModal(true)
+        }
+        if(setSelectedProduct){
+            setSelectedProduct(productId)
+        }
+    }
+
     return (
         <div className={`product ${classSpec || ""}`}>
             <div className="thumb">
@@ -30,13 +44,15 @@ const ProductItem = (
                 <div className="actions">
                     <a href="wishlist.html" className="action wishlist" title="Wishlist"><i
                             className="icon-heart"></i></a>
-                    <a className="action quickview" title="Quick view" onClick={() => setIsOpenModal(true)}><i
+                    { 
+                    setIsOpenModal && <a className="action quickview" title="Quick view" onClick={() => handleViewDetailProduct(product.id)}><i
                             className="icon-size-fullscreen"></i></a>
+                    }
                     <a href="compare.html" className="action compare" title="Compare"><i
                             className="icon-refresh"></i></a>
                 </div>
-                <button title="Add To Cart" className=" add-to-cart">Add
-                    To Cart</button>
+                
+                <AddToCartButton product={product} />
             </div>
             <div className="content">
                 <h5 className="title"><a href="/san-pham.html">{product.name}</a></h5>

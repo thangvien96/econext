@@ -8,6 +8,7 @@ import Header from "./components/layout/Header";
 import QueryProvider from "./providers/QueryProvider";
 import Footer from "./components/layout/Footer";
 import RouteProgress from "./providers/RouteProgress";
+import ReduxProvider from '@/app/store/Provider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,12 +35,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          <RouteProgress />
-          <Header />
-          {children}
-          <Footer />
-        </QueryProvider>
+        <ReduxProvider>
+          <QueryProvider>
+            <RouteProgress />
+              <Header />
+              {children}
+              <Footer />
+          </QueryProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

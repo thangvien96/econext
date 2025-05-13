@@ -17,3 +17,10 @@ export const getProducts = async (current_page: number, page_size: number) => {
   });
   return res.data; 
 };
+
+export const getDetailProducts = async (productId: string | null) => {
+  const res = await api.post('/getDetailProducts', {
+    productId
+  });
+  return res.data; 
+};

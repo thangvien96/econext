@@ -1,16 +1,18 @@
 'use client'
 
 import { useState } from "react";
-import ProductItem from "../ui/ProductItem";
+import ProductItem from "./ProductItem";
 import { useQuery } from '@tanstack/react-query';
 import { getProductsBestSeller, getProductsNew } from "@/app/services/product";
 
 export interface IProduct {
+    id: string,
     name: string,
     price: number,
     images: string[],
     tag?: string,
     slug: string,
+    quantity: number,
 }
 
 interface IProps {
