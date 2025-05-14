@@ -11,7 +11,7 @@ import DetailProductModal from "./DetailProductModal";
 
 const ProductGrid = () => {
     const [currentPage, setCurrentpage] = useState<number>(1);
-    const [pageSize, setpageSize] = useState<number>(5);
+    const [pageSize, setpageSize] = useState<number>(6);
     const contentRef = useRef<HTMLDivElement>(null);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<string | null>(null);

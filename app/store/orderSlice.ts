@@ -20,10 +20,8 @@ const orderSlice = createSlice({
     addProduct(state, action: PayloadAction<IProduct>) {
       const existing = state.items.find(p => p.id === action.payload.id);
       if (existing) {
-        console.log(action.payload);
         existing.quantity += action.payload.quantity;
       } else {
-        action.payload.quantity = 1;
         state.items.push(action.payload);
       }
     },

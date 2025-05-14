@@ -1,4 +1,4 @@
-import { ShoppingCart } from 'lucide-react';
+import CartIcon from '../cart/CartIcon';
 
 export interface IModalCart {
     openModalCart: boolean,
@@ -41,11 +41,7 @@ const HeaderBottom = ({ setOpenModalCart } : IModalCart) => {
                                 </ul>
                             </div>
                             
-                            <a onClick={() => setOpenModalCart(true)} className="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
-                                <ShoppingCart />
-                                <span className="header-action-num">01</span>
-                                <span className="cart-amount">€30.00</span>
-                            </a>
+                            <CartIcon setOpenModalCart={setOpenModalCart} />
 
                             <a href="#offcanvas-mobile-menu" className="header-action-btn header-action-btn-menu offcanvas-toggle d-lg-none">
                                 <i className="icon-menu"></i>

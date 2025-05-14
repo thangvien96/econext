@@ -1,13 +1,24 @@
 'use client';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store/store';
 import { IModalCart } from "../header/HeaderBottom";
 import Link from 'next/link';
+import { removeProduct } from '@/app/store/orderSlice';
+
 
 const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
+    const dispatch = useDispatch();
     const items = useSelector((state: RootState) => state.order.items);
     console.log(items)
+
+    const totalMoney = items.reduce((total, currentValue) => {
+        return total + currentValue.price*currentValue.quantity;
+    }, 0)
+
+    const handleDeleteProductInCart = (productId: string) => {
+        dispatch(removeProduct(productId));
+    }
 
     return (
         <div id="offcanvas-cart" className={`offcanvas offcanvas-cart ${openModalCart ? 'offcanvas-open' : ''}`}>
@@ -27,8 +38,8 @@ const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
                                         </Link>
                                         <div className="content">
                                             <Link href={`/${prd.slug}`} className="title">{prd.name}</Link>
-                                            <span className="quantity-price">{prd.quantity} x <span className="amount">${prd.price}</span></span>
-                                            <a className="remove">×</a>
+                                            <span className="quantity-price">{prd.quantity} <span>x</span><span className="amount">${prd.price}</span></span>
+                                            <a className="remove" onClick={() => handleDeleteProductInCart(prd.id)}>×</a>
                                         </div>
                                     </li>
                                 )
@@ -40,9 +51,9 @@ const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
                     <div className="sub-total">
                         <table className="table">
                             <tbody>
-                                <tr>
+                                {/* <tr>
                                     <td className="text-start">Sub-Total :</td>
-                                    <td className="text-end">$523.30</td>
+                                    <td className="text-end">${totalMoney}</td>
                                 </tr>
                                 <tr>
                                     <td className="text-start">Eco Tax (-2.00) :</td>
@@ -51,16 +62,16 @@ const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
                                 <tr>
                                     <td className="text-start">VAT (20%) :</td>
                                     <td className="text-end">$104.66</td>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                     <td className="text-start">Total :</td>
-                                    <td className="text-end theme-color">$632.48</td>
+                                    <td className="text-end theme-color">${totalMoney}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div className="buttons">
-                        <a href="cart.html" className="btn btn-dark btn-hover-primary mb-30px">view cart</a>
+                        <Link href="/cart" onClick={() => setOpenModalCart(false)} className="btn btn-dark btn-hover-primary mb-30px">view cart</Link>
                         <a href="checkout.html" className="btn btn-outline-dark current-btn">checkout</a>
                     </div>
                     <p className="minicart-message">Free Shipping on All Orders Over $100!</p>

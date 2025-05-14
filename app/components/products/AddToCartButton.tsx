@@ -1,14 +1,54 @@
 import { useDispatch } from "react-redux";
 import { IProduct } from "./ProductGridHome"; 
 import { addProduct } from "@/app/store/orderSlice";
+import { useEffect, useRef, useState } from "react";
+import FlyToCartAnimation from "../cart/FlyToCartAnimation";
+import { triggerShake } from '@/app/store/cartUI';
 
 const AddToCartButton = ({ product } : {product : IProduct}) => {
     const dispatch = useDispatch();
 
+    const btnRef = useRef<HTMLButtonElement>(null);
+    const cartIconRef = useRef<HTMLElement | null>(null);
+    const [animating, setAnimating] = useState(false);
+    const [fromTo, setFromTo] = useState<{ from: DOMRect; to: DOMRect } | null>(null);
+     // Gán ref cho icon giỏ hàng từ ID
+    useEffect(() => {
+        cartIconRef.current = document.getElementById('cart-icon');
+    }, []);
+
+    const handleAddToCart = () => {
+        dispatch(addProduct({...product, quantity: 1}));
+
+        if (!btnRef.current || !cartIconRef.current) return;
+        const from = btnRef.current.getBoundingClientRect();
+        const to = cartIconRef.current.getBoundingClientRect();
+        setFromTo({ from, to });
+        setAnimating(true);
+    }
+
+    const flyToCartComplete = () => {
+        setAnimating(false);
+        dispatch(triggerShake());
+    }
+
     return (
-        <button title="Add To Cart" className="add-to-cart" onClick={() => dispatch(addProduct({...product, quantity: 1}))}>
+        <>
+            <button ref={btnRef} title="Add To Cart" className="add-to-cart" onClick={handleAddToCart}>
             Add To Cart
-        </button>
+            </button>
+
+            {
+                animating && fromTo && (
+                    <FlyToCartAnimation
+                    imageUrl={product.images[0]}
+                    from={fromTo.from}
+                    to={fromTo.to}
+                    onComplete={flyToCartComplete}
+                    />
+                )
+            }
+        </>
     )
 }
 
