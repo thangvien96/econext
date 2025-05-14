@@ -8,6 +8,7 @@ import { ShoppingCart } from "lucide-react"
 
 const CartIcon = ({ setOpenModalCart } : { setOpenModalCart : (a: boolean) => void }) => {
     const shouldShake = useSelector((state: RootState) => state.cartUI.shouldShake);
+    const itemsCart = useSelector((state: RootState) => state.order.items);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -20,7 +21,7 @@ const CartIcon = ({ setOpenModalCart } : { setOpenModalCart : (a: boolean) => vo
     return (
         <a onClick={() => setOpenModalCart(true)} className={`header-action-btn header-action-btn-cart offcanvas-toggle pr-0 ${shouldShake ? 'animate-bounce' : ''}`}>
             <ShoppingCart id="cart-icon" />
-            <span className="header-action-num">01</span>
+            <span className="header-action-num">{itemsCart.length}</span>
             {/* <span className="cart-amount">€30.00</span> */}
         </a>
     )

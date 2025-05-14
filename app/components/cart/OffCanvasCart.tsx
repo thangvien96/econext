@@ -1,10 +1,12 @@
 'use client';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { useMemo } from 'react';
 import { RootState } from '@/app/store/store';
 import { IModalCart } from "../header/HeaderBottom";
 import Link from 'next/link';
 import { removeProduct } from '@/app/store/orderSlice';
+import { calculateTotal } from '@/app/utils/carts';
 
 
 const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
@@ -12,9 +14,7 @@ const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
     const items = useSelector((state: RootState) => state.order.items);
     console.log(items)
 
-    const totalMoney = items.reduce((total, currentValue) => {
-        return total + currentValue.price*currentValue.quantity;
-    }, 0)
+    const totalMoney = useMemo(() => calculateTotal(items), [items]);
 
     const handleDeleteProductInCart = (productId: string) => {
         dispatch(removeProduct(productId));
