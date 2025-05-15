@@ -5,11 +5,12 @@ import { RootState } from '@/app/store/store';
 import Link from "next/link";
 import { useMemo } from "react";
 import { calculateTotal } from "@/app/utils/carts";
+import { useCartTotal } from "@/app/hooks/useCartTotal";
 
 const CartTotal = () => {
     const items = useSelector((state: RootState) => state.order.items);
 
-    const totalMoney = useMemo(() => calculateTotal(items), [items]);
+    const totalMoney = useCartTotal();
 
     return (
         <div className="col-lg-4 col-md-12 mt-md-30px">

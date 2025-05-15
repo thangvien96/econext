@@ -7,6 +7,7 @@ import { IModalCart } from "../header/HeaderBottom";
 import Link from 'next/link';
 import { removeProduct } from '@/app/store/orderSlice';
 import { calculateTotal } from '@/app/utils/carts';
+import { useCartTotal } from '@/app/hooks/useCartTotal';
 
 
 const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
@@ -14,7 +15,7 @@ const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
     const items = useSelector((state: RootState) => state.order.items);
     console.log(items)
 
-    const totalMoney = useMemo(() => calculateTotal(items), [items]);
+    const totalMoney = useCartTotal();
 
     const handleDeleteProductInCart = (productId: string) => {
         dispatch(removeProduct(productId));

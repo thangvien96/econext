@@ -1,39 +1,32 @@
 'use client'
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { checkoutSchema, CheckoutFormData } from '@/app/schemas/checkoutSchema';
+interface Iprops {
+    register: any,
+    handleSubmit: any,
+    errors: any,
+    onSubmit: any,
+}
 
-const FormCheckOut = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<CheckoutFormData>({
-        resolver: zodResolver(checkoutSchema),
-    });
-
-    const onSubmit = (data: CheckoutFormData) => {
-        console.log('Dữ liệu gửi:', data);
-    };
+const FormCheckOut = ({ register, handleSubmit,errors,onSubmit  } : Iprops) => {
 
     return (
         <>  
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md mx-auto">
+            <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="billing-info mb-20px">
                             <label>Họ và tên</label>
                             <input type="text" {...register('name')} />
+                            {errors.name && <p className="text-red-600">{errors.name.message}</p>}
                         </div>
                     </div>
                     <div className="col-lg-12">
                         <div className="billing-select mb-20px">
                             <label>Tỉnh/Thành phố</label>
                             <select {...register('province')}>
-                                <option>Select a country</option>
-                                <option>Hà Nội</option>
-                                <option>Hồ Chí Minh</option>
+                                <option value="">Select a country</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="Hồ Chí Minh">Hồ Chí Minh</option>
                             </select>
                         </div>
                     </div>
@@ -53,18 +46,21 @@ const FormCheckOut = () => {
                         <div className="billing-info mb-20px">
                             <label>Địa chỉ nhà</label>
                             <input placeholder="..." type="text" {...register('address')} />
+                            {errors.address && <p className="text-red-600">{errors.address.message}</p>}
                         </div>
                     </div>
                     <div className="col-lg-6 col-md-6">
                         <div className="billing-info mb-20px">
                             <label>Số điện thoại liên hệ</label>
                             <input type="text" {...register('phone')} />
+                            {errors.phone && <p className="text-red-600">{errors.phone.message}</p>}
                         </div>
                     </div>
                     <div className="col-lg-6 col-md-6">
                         <div className="billing-info mb-20px">
                             <label>Địa chỉ Email</label>
                             <input type="text" {...register('email')} />
+                            {errors.email && <p className="text-red-600">{errors.email.message}</p>}
                         </div>
                     </div>
                 </div>
@@ -75,11 +71,6 @@ const FormCheckOut = () => {
                         <textarea {...register('note')} placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
                     </div>
                 </div>
-                
-                <button type="submit" className="bg-blue-600 px-4 py-2 rounded">
-                        Gửi đơn hàng
-                </button>
-
             </form>
         </>
     )
