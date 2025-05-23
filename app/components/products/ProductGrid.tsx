@@ -4,10 +4,10 @@ import { getProducts } from "@/app/services/product";
 import ProductPagination from "./ProductPagination"
 import { useQuery } from "@tanstack/react-query";
 import ProductItem from "./ProductItem";
-import { IProduct } from "./ProductGridHome";
 import { useEffect, useRef, useState } from "react";
 import Modal from "../ui/Modal";
 import DetailProductModal from "./DetailProductModal";
+import { IProduct } from "@/app/types";
 
 const ProductGrid = () => {
     const [currentPage, setCurrentpage] = useState<number>(1);

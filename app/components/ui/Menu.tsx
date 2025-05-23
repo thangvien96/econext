@@ -1,5 +1,8 @@
 'use client';
 
+import { getProductGroup } from "@/app/services/product";
+import { IProductGroup } from "@/app/types";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link"
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,6 +10,11 @@ import { useEffect, useState } from "react";
 const Menu = () => {
     const pathname = usePathname();
     const [closing, setClosing] = useState(false);
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["product_group"],
+        queryFn: getProductGroup
+    });
 
     useEffect(() => {
         // Khi route thay đổi => đóng dropdown bằng cách thêm class
@@ -18,6 +26,8 @@ const Menu = () => {
 
         return () => clearTimeout(timeout);
     }, [pathname]);
+
+    console.log(data);
 
     return (
         <div className="bg-gray d-none d-lg-block sticky-nav">
@@ -33,29 +43,16 @@ const Menu = () => {
                                     </Link>
                                     <ul className="mega-menu d-block">
                                         <li className="d-flex">
-                                            <ul className="d-block">
-                                                <li className="title"><a href="#">Đèn trong nhà</a></li>
-                                                <li><Link href="/products">Led âm trần</Link></li>
-                                                <li><a href="/san-pham.html">Mini spotlight</a></li>
-                                                <li><a href="/san-pham.html">Track light</a></li>
-                                                <li><a href="/san-pham.html">Surface mounted</a></li>
-                                                <li><a href="/san-pham.html">Đèn bóng cao cấp</a></li>
-                                                <li><a href="/san-pham.html">Ray nam châm</a></li>
-                                                <li><a href="/san-pham.html">Ray nam châm siêu mỏng</a></li>
-                                                <li><a href="/san-pham.html">Ray tủ mini</a></li>
-                                                <li><a href="/san-pham.html">LED dây</a></li>
-                                            </ul>
-                                            <ul className="d-block">
-                                                <li className="title"><a href="#">Đèn ngoài trời</a></li>
-                                                <li><a href="/san-pham.html">Đèn âm đất</a></li>
-                                                <li><a href="/san-pham.html">Đèn chiếu điểm</a></li>
-                                                <li><a href="/san-pham.html">Đèn tường</a></li>
-                                                <li><a href="/san-pham.html">Đèn âm cầu thang</a></li>
-                                            </ul>
-                                            <ul className="d-block">
-                                                <li className="title"><a href="#">Đèn trang trí</a></li>
-                                                <li><a href="/san-pham.html">Series Nelly</a></li>
-                                            </ul>
+                                            {
+                                                data.data.map((prd_group: IProductGroup) => {
+                                                    return (
+                                                        <ul className="d-block">
+                                                            <li className="title"><Link href={`${prd_group.slug}`}>{prd_group.name}</Link></li>
+                                                            <li><a href="/san-pham.html">Series Nelly</a></li>
+                                                        </ul>
+                                                    )
+                                                })
+                                            }
                                         </li>
                                         <li>
                                             <ul className="menu-banner w-100">

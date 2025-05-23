@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { IProduct } from "./ProductGridHome";
+
 import AddToCartButton from "./AddToCartButton";
+import { IProduct } from "@/app/types";
+import { formatCurrencyVND } from "@/app/utils/helpers";
 
 
 const ProductItem = (
@@ -30,8 +32,8 @@ const ProductItem = (
         <div className={`product ${classSpec || ""}`}>
             <div className="thumb">
                 <Link href={`/product/${product.slug}`} className="image">
-                    <img src={product.images[0]} alt="Product" />
-                    <img className="hover-image" src={product.images[1]} alt="Product" />
+                    <img src={`${process.env.NEXT_PUBLIC_URL_BASE_API}${product.image[0].url}`} alt="Product" />
+                    <img className="hover-image" src={`${process.env.NEXT_PUBLIC_URL_BASE_API}${product.image[1].url}`} alt="Product" />
                 </Link>
                 
                 {
@@ -57,7 +59,7 @@ const ProductItem = (
             <div className="content">
                 <h5 className="title"><a href="/san-pham.html">{product.name}</a></h5>
                 <span className="price">
-                    <span className="new">{product.price} VND</span>
+                    <span className="new">{formatCurrencyVND(product.price)}</span>
                 </span>
             </div>
         </div>
