@@ -21,3 +21,14 @@ export interface IProductGroup {
     "publishedAt": string,
     "slug": string,
 }
+
+export interface ICategory {
+    "id": number,
+    "documentId": string,
+    "name": string,
+    "description": string,
+    "createdAt": string,
+    "updatedAt": string,
+    "publishedAt": string,
+    "slug": string,
+}

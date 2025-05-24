@@ -1,6 +1,6 @@
 'use client'
 
-import { getProducts } from "@/app/services/product";
+import { getProductsWithCategory } from "@/app/services/product";
 import ProductPagination from "./ProductPagination"
 import { useQuery } from "@tanstack/react-query";
 import ProductItem from "./ProductItem";
@@ -9,7 +9,11 @@ import Modal from "../ui/Modal";
 import DetailProductModal from "./DetailProductModal";
 import { IProduct } from "@/app/types";
 
-const ProductGrid = () => {
+interface IProps {
+    slugCategory : string
+}
+
+const ProductGrid = ({ slugCategory } : IProps) => {
     const [currentPage, setCurrentpage] = useState<number>(1);
     const [pageSize, setpageSize] = useState<number>(6);
     const contentRef = useRef<HTMLDivElement>(null);
@@ -19,7 +23,7 @@ const ProductGrid = () => {
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["current_page", currentPage],
-        queryFn: () => getProducts(currentPage, pageSize)
+        queryFn: () => getProductsWithCategory(slugCategory, currentPage, pageSize)
     });
 
     useEffect(() => {
@@ -36,7 +40,7 @@ const ProductGrid = () => {
 
             <div className="row">
                 {
-                    data.map((product: IProduct, index: number) => (
+                    data.data.map((product: IProduct, index: number) => (
                             <div key={index} className="col-lg-4  col-md-6 col-sm-6 col-xs-6" data-aos="fade-up" data-aos-delay="200">
                                 <ProductItem 
                                     classSpec="mb-25px" 
@@ -53,7 +57,7 @@ const ProductGrid = () => {
             <ProductPagination 
                 currentPage={currentPage}
                 setCurrentpage={setCurrentpage}
-                totalPage={40}
+                totalPage={data.meta.pagination.pageCount}
             />
 
             <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>

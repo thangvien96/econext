@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link"
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import ChildMenuItem from "./ChildMenuItem";
 
 const Menu = () => {
     const pathname = usePathname();
@@ -27,7 +28,8 @@ const Menu = () => {
         return () => clearTimeout(timeout);
     }, [pathname]);
 
-    console.log(data);
+    if (isLoading) return <p>Đang tải...</p>;
+    if (error) return <p>Có lỗi xảy ra.</p>;
 
     return (
         <div className="bg-gray d-none d-lg-block sticky-nav">
@@ -46,9 +48,9 @@ const Menu = () => {
                                             {
                                                 data.data.map((prd_group: IProductGroup) => {
                                                     return (
-                                                        <ul className="d-block">
+                                                        <ul className="d-block" key={prd_group.documentId}>
                                                             <li className="title"><Link href={`${prd_group.slug}`}>{prd_group.name}</Link></li>
-                                                            <li><a href="/san-pham.html">Series Nelly</a></li>
+                                                            <ChildMenuItem slugProductGroup={prd_group.slug} />
                                                         </ul>
                                                     )
                                                 })

@@ -3,14 +3,16 @@
 import { getDetailProducts } from "@/app/services/product";
 import { useQuery } from "@tanstack/react-query";
 import ProductImageSlider from "./ProductImageSlider";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { IProduct } from "@/app/types";
+import { formatCurrencyVND } from "@/app/utils/helpers";
 
 const DetailProductModal = ({selectedProduct} : {selectedProduct: string|null}) => {
     const [quantity, setQuantity] = useState<string>("1")
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["selectedProduct", selectedProduct],
-        queryFn: () => getDetailProducts(selectedProduct)
+        queryFn: () => getDetailProducts(selectedProduct!)
     });
 
     if (isLoading) return <p>Đang tải...</p>;
@@ -21,11 +23,11 @@ const DetailProductModal = ({selectedProduct} : {selectedProduct: string|null}) 
     return (
         <div className="row">
             <div className="col-md-5 col-sm-12 col-xs-12 mb-lm-30px mb-sm-30px">
-                <ProductImageSlider gallery={data.gallery} />
+                <ProductImageSlider gallery={data.data[0].image} />
             </div>
             <div className="col-md-7 col-sm-12 col-xs-12">
                 <div className="product-details-content quickview-content">
-                    <h2>{data.name}</h2>
+                    <h2>{data.data[0].name}</h2>
                     <p className="reference">Reference:<span> demo_17</span></p>
                     <div className="pro-details-rating-wrap">
                         <div className="rating-product">
@@ -39,11 +41,11 @@ const DetailProductModal = ({selectedProduct} : {selectedProduct: string|null}) 
                     </div>
                     <div className="pricing-meta">
                         <ul>
-                            <li className="old-price not-cut">${data.price}</li>
+                            <li className="old-price not-cut">{formatCurrencyVND(data.data[0].price)}</li>
                         </ul>
                     </div>
                     {/* <p className="quickview-para">{data.description}</p> */}
-                    <p className="quickview-para" dangerouslySetInnerHTML={{ __html: data.description }}></p>
+                    <p className="quickview-para" dangerouslySetInnerHTML={{ __html: data.data[0].description }}></p>
 
                     <div className="pro-details-size-color">
                         <div className="pro-details-color-wrap">

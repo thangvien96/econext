@@ -19,10 +19,15 @@ import Image from 'next/image';
 
 export default function ProductImageSlider({ gallery } : {
     gallery : {
-        id: string,
-        original: string,
-        thumbnail: string,
-        file_name: string,
+        url : string,
+        formats: {
+          small: {
+            url : string
+          },
+          thumbnail: {
+            url : string
+          }
+        }
     }[]
 }) {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
@@ -40,7 +45,7 @@ export default function ProductImageSlider({ gallery } : {
         {gallery.map((src, index) => (
           <SwiperSlide key={index}>
             <Image
-              src={src.original}
+              src={`${process.env.NEXT_PUBLIC_URL_BASE_API}${src.formats.small.url}`}
               alt={`Image ${index}`}
               width={500}
               height={500}
@@ -54,7 +59,7 @@ export default function ProductImageSlider({ gallery } : {
       <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={10}
-        slidesPerView={5}
+        slidesPerView={4}
         watchSlidesProgress
         modules={[Thumbs]}
         className="rounded-lg"
@@ -62,7 +67,7 @@ export default function ProductImageSlider({ gallery } : {
         {gallery.map((src, index) => (
           <SwiperSlide key={index} className="cursor-pointer border rounded">
             <Image
-              src={src.original}
+              src={`${process.env.NEXT_PUBLIC_URL_BASE_API}${src.formats.thumbnail.url}`}
               alt={`Thumb ${index}`}
               width={80}
               height={80}

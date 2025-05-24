@@ -35,7 +35,7 @@ const OffCanvasCart = ({ openModalCart, setOpenModalCart } : IModalCart) => {
                                 return (
                                     <li key={`${prd.id}`}>
                                         <Link href={`/${prd.slug}`} className="image">
-                                            <img src={prd.images[0]} alt="Cart product Image" />
+                                            <img src={`${process.env.NEXT_PUBLIC_URL_BASE_API}${prd.image[0].url}`} alt="Cart product Image" />
                                         </Link>
                                         <div className="content">
                                             <Link href={`/${prd.slug}`} className="title">{prd.name}</Link>

@@ -19,12 +19,12 @@ const ProductItem = (
     }) => {
 
 
-    const handleViewDetailProduct = (productId: string) => {
+    const handleViewDetailProduct = (slug: string) => {
         if(setIsOpenModal){
             setIsOpenModal(true)
         }
         if(setSelectedProduct){
-            setSelectedProduct(productId)
+            setSelectedProduct(slug)
         }
     }
 
@@ -47,7 +47,7 @@ const ProductItem = (
                     <a href="wishlist.html" className="action wishlist" title="Wishlist"><i
                             className="icon-heart"></i></a>
                     { 
-                    setIsOpenModal && <a className="action quickview" title="Quick view" onClick={() => handleViewDetailProduct(product.id)}><i
+                    setIsOpenModal && <a className="action quickview" title="Quick view" onClick={() => handleViewDetailProduct(product.slug)}><i
                             className="icon-size-fullscreen"></i></a>
                     }
                     <a href="compare.html" className="action compare" title="Compare"><i

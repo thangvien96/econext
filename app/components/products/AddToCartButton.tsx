@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
-import { IProduct } from "./ProductGridHome"; 
+
 import { addProduct } from "@/app/store/orderSlice";
 import { useEffect, useRef, useState } from "react";
 import FlyToCartAnimation from "../cart/FlyToCartAnimation";
 import { triggerShake } from '@/app/store/cartUI';
+import { IProduct } from "@/app/types";
 
 const AddToCartButton = ({ product } : {product : IProduct}) => {
     const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const AddToCartButton = ({ product } : {product : IProduct}) => {
             {
                 animating && fromTo && (
                     <FlyToCartAnimation
-                    imageUrl={product.images[0]}
+                    imageUrl={`${process.env.NEXT_PUBLIC_URL_BASE_API}${product.image[0].url}`}
                     from={fromTo.from}
                     to={fromTo.to}
                     onComplete={flyToCartComplete}
